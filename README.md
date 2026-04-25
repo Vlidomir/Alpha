@@ -1,73 +1,73 @@
 # Alpha Image Editor MVP
 
-Local MVP for an AI image editing web app. It uses Next.js App Router, TypeScript, Prisma, PostgreSQL, Better Auth email/password, Docker Compose for Postgres, local filesystem storage, and a mock AI provider.
+Локальный MVP веб-приложения для AI-редактирования изображений. Проект использует Next.js App Router, TypeScript, Prisma, PostgreSQL, Better Auth с email/password, Docker Compose для PostgreSQL, локальное файловое хранилище и mock AI-провайдер.
 
-## Features
+## Возможности
 
-- User registration, login, and logout with Better Auth.
-- Protected dashboard.
-- Authenticated users can upload exactly two images and enter a prompt.
-- Server-side upload validation:
-  - `jpg`, `jpeg`, `png`, `webp` only.
-  - 10 MB max per image.
-  - exactly two images.
-- Uploaded images are stored under `storage/uploads`.
-- Mock generated results are stored under `storage/results`.
-- Prisma models for `ImageJob`, `UploadedImage`, and `GeneratedImage`.
-- Job statuses: `pending`, `processing`, `completed`, `failed`.
+- Регистрация, вход и выход пользователя через Better Auth.
+- Защищенная страница дашборда.
+- Авторизованный пользователь может загрузить ровно два изображения и ввести промпт.
+- Серверная валидация файлов:
+  - разрешены только `jpg`, `jpeg`, `png`, `webp`;
+  - максимум 10 МБ на файл;
+  - нужно загрузить ровно два изображения.
+- Загруженные изображения сохраняются в `storage/uploads`.
+- Сгенерированные mock-результаты сохраняются в `storage/results`.
+- Prisma-модели для `ImageJob`, `UploadedImage` и `GeneratedImage`.
+- Статусы задач: `pending`, `processing`, `completed`, `failed`.
 - API routes:
   - `POST /api/jobs`
   - `GET /api/jobs`
   - `GET /api/jobs/[jobId]`
   - `GET /api/files/[fileId]`
 
-## Local Setup
+## Локальный запуск
 
-1. Install dependencies:
+1. Установите зависимости:
 
    ```bash
    npm install
    ```
 
-2. Copy the environment example:
+2. Скопируйте пример переменных окружения:
 
    ```bash
    cp .env.example .env
    ```
 
-3. Set a long random value for `BETTER_AUTH_SECRET` in `.env`.
+3. В файле `.env` задайте длинное случайное значение для `BETTER_AUTH_SECRET`.
 
-4. Start PostgreSQL:
+4. Запустите PostgreSQL:
 
    ```bash
    docker compose up -d
    ```
 
-5. Generate Prisma Client and run migrations:
+5. Сгенерируйте Prisma Client и примените миграции:
 
    ```bash
    npm run prisma:generate
    npm run prisma:migrate -- --name init
    ```
 
-6. Start the app:
+6. Запустите приложение:
 
    ```bash
    npm run dev
    ```
 
-7. Open `http://localhost:3000`.
+7. Откройте `http://localhost:3000`.
 
-## Storage
+## Хранилище
 
-The default local storage root is `storage`, controlled by `STORAGE_ROOT`. Uploaded images are saved to `storage/uploads`, and mock results are saved to `storage/results`.
+По умолчанию корневая папка локального хранилища - `storage`. Ее можно изменить через переменную `STORAGE_ROOT`. Загруженные изображения сохраняются в `storage/uploads`, а mock-результаты - в `storage/results`.
 
-## Mock AI Provider
+## Mock AI-провайдер
 
-No real AI API is used. `MockAIProvider` creates a local SVG result that embeds the two uploaded images and the prompt, then stores it as a generated image.
+Реальные AI API не используются. `MockAIProvider` создает локальный SVG-результат, в который встраивает два загруженных изображения и промпт, а затем сохраняет его как сгенерированное изображение.
 
-## Notes
+## Примечания
 
-- S3 is intentionally not included.
-- Real AI providers are intentionally not included.
-- Generated Prisma Client output in `src/generated/prisma` is ignored and should be recreated with `npm run prisma:generate`.
+- S3 намеренно не подключен.
+- Реальные AI-провайдеры намеренно не подключены.
+- Сгенерированный Prisma Client в `src/generated/prisma` игнорируется git-ом и должен пересоздаваться командой `npm run prisma:generate`.
