@@ -46,7 +46,39 @@ export function DashboardClient({ userName }: { userName: string }) {
   }
 
   useEffect(() => {
-    void loadJobs();
+    let isMounted = true;
+
+    fetch("/api/jobs", { cache: "no-store" })
+      .then(async (response) => ({
+        response,
+        payload: await response.json()
+      }))
+      .then(({ response, payload }) => {
+        if (!isMounted) {
+          return;
+        }
+
+        setIsLoading(false);
+
+        if (!response.ok) {
+          setError(payload.error ?? "Unable to load jobs.");
+          return;
+        }
+
+        setJobs(payload.jobs);
+      })
+      .catch(() => {
+        if (!isMounted) {
+          return;
+        }
+
+        setIsLoading(false);
+        setError("Unable to load jobs.");
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {

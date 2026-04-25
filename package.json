@@ -1,6 +1,7 @@
 {
   "name": "alpha-image-editor-mvp",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -13,6 +14,7 @@
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "^1.6.0",
+    "@prisma/adapter-pg": "^7.7.0",
     "@prisma/client": "^7.7.0",
     "better-auth": "^1.6.0",
     "lucide-react": "^0.468.0",
@@ -22,8 +24,10 @@
   },
   "devDependencies": {
     "@types/node": "^22.15.0",
+    "@types/pg": "^8.11.10",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "dotenv": "^16.4.7",
     "eslint": "^9.0.0",
     "eslint-config-next": "^16.1.6",
     "prisma": "^7.7.0",

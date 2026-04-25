@@ -7,7 +7,7 @@ export class LocalStorageProvider implements StorageProvider {
   private readonly root: string;
 
   constructor(root = process.env.STORAGE_ROOT ?? "storage") {
-    this.root = path.resolve(process.cwd(), root);
+    this.root = path.resolve(/* turbopackIgnore: true */ process.cwd(), root);
   }
 
   async saveUpload(input: {
